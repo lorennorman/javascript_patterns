@@ -1,5 +1,5 @@
 // Enables the Mixin style of code reuse 
-var Composable = function(klass)
+var Composable = function()
 {
   // And this is the factory code that cranks out new instances of this 
   // particular composable object
