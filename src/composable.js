@@ -42,10 +42,15 @@ var Composable = function()
   {
     return function()
     {
+      var passThroughArguments = arguments;
+      var lastReturned;
+
       _composedProperties[functionProperty].forEach(function(nestedProperty)
       {
-        nestedProperty.apply(_composableObject);
+        lastReturned = nestedProperty.apply(_composableObject, passThroughArguments);
       });
+
+      return lastReturned;
     };
   };
 

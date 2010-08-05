@@ -1,29 +1,34 @@
 describe('Mixins: patterns and tools for composable reuse and recombinant designs', function()
 {
-  describe('ComposableObject', function()
+  describe('Composable', function()
   {
-    it('is constructor function', function()
+    it('exists', function()
     {
       expect(Composable).toBeDefined();
     });
 
-    it('is a constructor function, like a class', function()
+    it('is a factory for creating composable objects', function()
     {
       var myComposableObject = Composable();
       expect(myComposableObject).toBeDefined();
     });
+
     describe('using Behaviors', function()
     {
       // Test Data: Behaviors
-      var Dog = {
-          name: "Ludo",
-          speak: function() { this.bark(); },
-          bark: function() { console.log('Bark Bark!'); }
-        },
-        Cat = {
-          name: "Nicodemus",
-          speak: function() { this.meow(); },
-          meow: function() { console.log('Mrawr.'); }
+      var Dog =
+        { name:  "Ludo"
+        , speak: function() { this.bark(); }
+        , bark:  function() { return 'Woof!'; }
+        }
+      , Cat =
+        { name:  "Nicodemus"
+        , speak: function() { this.meow(); }
+        , meow:  function() { return 'Mrawr.'; }
+        }
+      , Personable =
+        {
+          greet: function(nameToGreet) { return 'Hello, '+nameToGreet+'!'; }
         };
       var aComposableObject;
       beforeEach(function()
@@ -56,6 +61,12 @@ describe('Mixins: patterns and tools for composable reuse and recombinant design
       {
         aComposableObject.actsLikeA(Dog);
         expect(aComposableObject.bark).toBeAFunction();
+      });
+
+      it('passes parameters through to the composed function', function()
+      {
+        aComposableObject.actsLikeA(Personable);
+        expect(aComposableObject.greet('carl')).toEqual(Personable.greet('carl'));
       });
 
       it('stores attributes properties as attributes', function()
